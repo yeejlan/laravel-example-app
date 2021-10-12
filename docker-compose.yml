@@ -1,0 +1,12 @@
+version: '3.2'
+
+services:
+
+  laravel-example-app:
+    build: .
+    image: laravel-example-app:v1.0
+    ports:
+      - 8027:80
+      - 28027:28017
+    volumes:
+      - ./:/app

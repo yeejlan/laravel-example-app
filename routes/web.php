@@ -23,6 +23,26 @@ Route::get('/db', function () {
     return view('user.index', ['users' => $users]);
 });
 
+Route::get('/{module}/{controller}/{action}', function ($module, $controller, $action) {
+    $controllerArr = array_map('ucfirst', explode('_', $controller));
+    $controller = implode('', $controllerArr);
+    $className = 'App\\Http\\Controllers\\' . $module . '\\' . ucfirst($controller) . 'Controller';
+    try{
+        $class = App::make($className);
+    }catch(Illuminate\Contracts\Container\BindingResolutionException $e){
+        //class not existed.
+        abort(404);
+    }
+
+    $action .= 'Action';
+    //action not existed.
+    if (!method_exists($class, $action)) {
+        abort(404);
+    }
+    // Call action and return response.
+    return app()->call([$class, $action]);
+});
+
 Route::get('/{controller}/{action}', function ($controller, $action) {
     $controllerArr = array_map('ucfirst', explode('_', $controller));
     $controller = implode('', $controllerArr);
