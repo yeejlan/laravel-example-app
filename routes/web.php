@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,15 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    Log::channel('my')->info('welcome!');
-    return view('welcome');
-});
-
-Route::get('/db', function () {
-    $users = DB::select('select * from users where active = ?', [1]);
-    return view('user.index', ['users' => $users]);
-});
+Route::get('/', [HomeController::class, 'indexAction']);
 
 Route::get('/{module}/{controller}/{action}', function ($module, $controller, $action) {
     $controllerArr = array_map('ucfirst', explode('_', $controller));

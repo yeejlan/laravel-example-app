@@ -7,6 +7,6 @@ services:
     image: laravel-example-app:v1.0
     ports:
       - 8027:80
-      - 28027:28017
+      - 20000:20000
     volumes:
       - ./:/app
